@@ -4,7 +4,7 @@
   "description": "A stock scraper app ",
   "main": "app.js",
   "scripts": {
-    "test": "app.js"
+    "test": "jshint app.js"
   },
   "author": "Omar T.",
   "license": "ISC",
