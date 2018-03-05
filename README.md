@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/omar2535/stock-scraper.svg?branch=master)](https://travis-ci.org/omar2535/stock-scraper)
 ## Simple stock scraper
 The intention for this will be used for analysis of stocks, specifically the ratios exhibited compared to the same statistics within an industry. 
 
