@@ -9,5 +9,7 @@ The key ratios that will be used for analysis are:
 * Free Cash Flow
 * Debt to Equity 
 
+### Usage
+---
 To use this APi, the ticker symbols must comply with the Yahoo Finance stock ticker symbols. 
 For eg. a canadian stock for Telus Communications is <b>T.TO</b> on the TSX, however it is <b>T</b> on the NYSE. The distinction must be made before requesting for data.
