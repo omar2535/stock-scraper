@@ -1,3 +1,3 @@
 var stockScraper = require('./stock-scraper');
 
-stockScraper("hello");
+stockScraper("BCE.TO");

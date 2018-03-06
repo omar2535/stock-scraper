@@ -1,20 +1,25 @@
 const request = require('request');
 const cheerio = require('cheerio');
-
+const cheerioTableparser = require('cheerio-tableparser');
 
 //passes stock ticker to be searched for
 module.exports = (stockTicker)=>{
-
-    
+        
     //Requests from the URL constructed
-    request('https://ca.finance.yahoo.com/quote/%5EGSPC?p=^GSPC', function(err, resp, html) {
-        if (!err){
-            var $ = cheerio.load(html);
-            var priceData = getPriceData($);
-            console.log(priceData.price);
-            console.log(priceData.dayChangePrice);
-            console.log(priceData.dayChangePercent);
-      }
+    request(constrctUrl(stockTicker), function(err, resp, html) {
+        var $ = cheerio.load(html);
+        if(checkSymbol($)){
+            if (!err){
+                var $ = cheerio.load(html);
+                var priceData = getPriceData($);
+                console.log(priceData.price);
+                console.log(priceData.dayChangePrice);
+                console.log(priceData.dayChangePercent);
+                console.log(getStatistics($));
+            }
+        }else{
+            console.log("invalid ticker symbol");
+        }
     });
 };
 
@@ -32,11 +37,35 @@ var getPriceData = function($){
         dayChangePrice: dayChangeInPrice,
         dayChangePercent: dayChangeInPercent,
     };
+    
     return priceData;
 };
 
 
+//returns all statistics data in JSON format
+var getStatistics = function($){
+    cheerioTableparser($);
+    var data = $('.table-qsp-stats').parsetable(false, false, true);
+    var returnData = {};
+    
+    for(var i=0; i<data[0].length; i++){
+        var name =  data[0][i];
+        var value = data[1][i];
+        returnData[name] = value;
+    }
+    return returnData;
+};
+
+//Checks if stock ticker symbol is valid
+var checkSymbol = function($){
+    if(getPriceData($).price.length != 0 && getPriceData($).dayChangePrice.length != 0){
+        return true;
+    }
+    return false;
+};
+
 //Constructs URL to be requested
 var constrctUrl = function(ticker){
-    //stub
+    var URL = "https://ca.finance.yahoo.com/quote/" + ticker + "/key-statistics?";
+    return URL; 
 };
