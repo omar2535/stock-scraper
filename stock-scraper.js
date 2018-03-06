@@ -7,18 +7,18 @@ module.exports = (stockTicker)=>{
         
     //Requests from the URL constructed
     request(constrctUrl(stockTicker), function(err, resp, html) {
-        var $ = cheerio.load(html);
-        if(checkSymbol($)){
-            if (!err){
-                var $ = cheerio.load(html);
-                var priceData = getPriceData($);
-                console.log(priceData.price);
-                console.log(priceData.dayChangePrice);
-                console.log(priceData.dayChangePercent);
-                console.log(getStatistics($));
+        if (!err){
+            var $ = cheerio.load(html);
+            if(checkSymbol($)){
+                    var $ = cheerio.load(html);
+                    var priceData = getPriceData($);
+                    console.log(priceData.price);
+                    console.log(priceData.dayChangePrice);
+                    console.log(priceData.dayChangePercent);
+                    console.log(getStatistics($));
+            }else{
+                console.log("invalid ticker symbol");
             }
-        }else{
-            console.log("invalid ticker symbol");
         }
     });
 };
@@ -64,7 +64,8 @@ var checkSymbol = function($){
     return false;
 };
 
-//Constructs URL to be requested
+
+//Constructs URL to be requested from Yahoo Finance
 var constrctUrl = function(ticker){
     var URL = "https://ca.finance.yahoo.com/quote/" + ticker + "/key-statistics?";
     return URL; 
