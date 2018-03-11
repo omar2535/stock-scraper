@@ -4,7 +4,7 @@ const cheerioTableparser = require('cheerio-tableparser');
 
 //passes stock ticker to be searched for
 module.exports = (stockTicker)=>{
-        
+    
     //Requests from the URL constructed
     request(constrctUrl(stockTicker), function(err, resp, html) {
         if (!err){
@@ -28,10 +28,9 @@ var getPriceData = function($){
     var comparitor = "watchlist";
     var priceBeforeTruncation =  $('#quote-header-info').text();
     var stringForPriceInfo = priceBeforeTruncation.slice(priceBeforeTruncation.indexOf(comparitor) + comparitor.length);
-    var price = stringForPriceInfo.substring(0, stringForPriceInfo.indexOf("+"));
-    var dayChangeInPrice = stringForPriceInfo.substring(stringForPriceInfo.indexOf("+"), stringForPriceInfo.indexOf("("));
-    var dayChangeInPercent = stringForPriceInfo.substring(stringForPriceInfo.indexOf("(")+1, stringForPriceInfo.indexOf(")")-1);
-
+    var price = stringForPriceInfo.substring(0, stringForPriceInfo.indexOf(".")+3);
+    var dayChangeInPrice = stringForPriceInfo.substring(stringForPriceInfo.indexOf(".")+3, stringForPriceInfo.indexOf("("));
+    var dayChangeInPercent = stringForPriceInfo.substring(stringForPriceInfo.indexOf("(")+1, stringForPriceInfo.indexOf(")")-1); 
     var priceData = {
         price: price,
         dayChangePrice: dayChangeInPrice,
@@ -70,3 +69,4 @@ var constrctUrl = function(ticker){
     var URL = "https://ca.finance.yahoo.com/quote/" + ticker + "/key-statistics?";
     return URL; 
 };
+
