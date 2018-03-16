@@ -24,14 +24,27 @@ module.exports = {
 
 function getHistoricalData (stockTicker, date1, date2, type, frequency){
 
+    
+    
+
+}
+
+var queryTable = {
+    monthly: "1mo",
+    weekly: "1wk",
+    daily: "1d", 
+    dividend: "div",
+    historical: "history",
+    splits: "split",
+}
+
+function contructQueryString(stockTicker, date1, date2, type, frequency){
     //Object for all query data
     //Must be contructed before call to get webpage
     var querySettings = {
-        fromDate: new Date(),
-        toDate: Math.floor(new Date().getTime() / 1000),
+        fromDate: Math.floor(date1.getTime() / 1000),
+        toDate: Math.floor(date2.getTime() / 1000),
     }
-
-
 }
 
 
