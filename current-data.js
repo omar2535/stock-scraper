@@ -12,9 +12,9 @@ module.exports = (stockTicker)=>{
             if(checkSymbol($)){
                     var $ = cheerio.load(html);
                     var priceData = getPriceData($);
-                    console.log(priceData.price);
-                    console.log(priceData.dayChangePrice);
-                    console.log(priceData.dayChangePercent);
+                    console.log("Current price: ", priceData.price);
+                    console.log("Day change($): ", priceData.dayChangePrice);
+                    console.log("Day change(%): ", priceData.dayChangePercent);
                     console.log(getStatistics($));
             }else{
                 console.log("invalid ticker symbol");
