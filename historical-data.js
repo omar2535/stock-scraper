@@ -22,6 +22,7 @@ var queryTable = {
     splits: "split",
 }
 
+
 /** function for getting historical data
 * @param {string} stockTicker (the stock ticker)
 * @param {date} date1 (the date you want your data FROM)
@@ -31,6 +32,14 @@ var queryTable = {
 */
 function getHistoricalData (stockTicker, date1, date2, type, frequency){
     var url = constructQueryString(stockTicker, date1, date2, type, frequency);
+    request(url, function(err, respose, html){
+        if(!err){
+            var $ = cheerio.load(html);
+            console.log(html);
+        }else{
+            console.log("error in connecting");
+        }
+    });
 }
 
 //function for constructing query string
@@ -45,6 +54,8 @@ function constructQueryString(stockTicker, date1, date2, type, frequency){
     }
     var URL = "https://ca.finance.yahoo.com/quote/" + stockTicker + "/history?period1=" + querySettings.fromDate+ "&period2="+querySettings.toDate+ "&filter="+querySettings.show+"&frequency="+querySettings.frequency;
     console.log(`the url is: ${URL}`);
+    return URL;
+    
 }
 
 
