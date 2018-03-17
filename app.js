@@ -7,5 +7,4 @@ var historyScraper = require('./historical-data.js');
 // }, 3000);
 
 
-//stockScraper("BCE.TO");
-historyScraper.getHistoricalData("BCE.TO");
+historyScraper.getHistoricalData("BCE.TO", new Date('May 1, 2008'), new Date(), "dividend", "monthly");
