@@ -7,12 +7,19 @@ DOCUMENTATION:
 date is always since start of inception until stated otherwise
     all date must be in time format of milliseconds since January 1, 1970, 00:00:00.
     To call the getHistorical data function, date1 and 2 must be passed in as new dates of format: new Date('MONTH DATE, YEAR')
-    
-ENUM FOR TYPE AND FREQUENCY:
 */
 
 module.exports = {
     getHistoricalData,
+}
+//Query Table to keep track of current enums for Yahoo Finance
+var queryTable = {
+    monthly: "1mo",
+    weekly: "1wk",
+    daily: "1d", 
+    dividend: "div",
+    historical: "history",
+    splits: "split",
 }
 
 /** function for getting historical data
@@ -23,18 +30,7 @@ module.exports = {
 * @param {string} frequency (the frequency between each data set: CHOOSE BETWEEN "DAILY", "WEEKLY", or "MONTHLY")
 */
 function getHistoricalData (stockTicker, date1, date2, type, frequency){
-
-    constructQueryString(stockTicker, date1, date2, type, frequency);
-    
-}
-
-var queryTable = {
-    monthly: "1mo",
-    weekly: "1wk",
-    daily: "1d", 
-    dividend: "div",
-    historical: "history",
-    splits: "split",
+    var url = constructQueryString(stockTicker, date1, date2, type, frequency);
 }
 
 function constructQueryString(stockTicker, date1, date2, type, frequency){
@@ -47,7 +43,8 @@ function constructQueryString(stockTicker, date1, date2, type, frequency){
         frequency: queryTable[frequency],
     }
     var URL = "https://ca.finance.yahoo.com/quote/" + stockTicker + "/history?period1=" + querySettings.fromDate+ "&period2="+querySettings.toDate+ "&filter="+querySettings.show+"&frequency="+querySettings.frequency;
-    console.log(URL);
+    console.log(`the url is: ${URL}`);
 }
+
 
 

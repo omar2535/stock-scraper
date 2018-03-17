@@ -3,6 +3,9 @@ const cheerio = require('cheerio');
 const cheerioTableparser = require('cheerio-tableparser');
 
 //passes stock ticker to be searched for
+/** 
+* @param {string} StockTicker (the stock ticker)
+**/
 module.exports = (stockTicker)=>{
     
     //Requests from the URL constructed
@@ -18,7 +21,14 @@ module.exports = (stockTicker)=>{
                 console.log("Day change($): ", priceData.dayChangePrice);
                 console.log("Day change(%): ", priceData.dayChangePercent);
                 console.log(getStatistics($));
-
+                
+                var returnObject = {
+                    currentPrice: priceData.price,
+                    dayChangeInPercent: priceData.dayChangePercent,
+                    dayChangeInPrice: priceData.dayChangePrice,
+                    statistics: getStatistics($),
+                }
+                return returnObject;
             }else{
                 console.log("invalid ticker symbol");
             }
