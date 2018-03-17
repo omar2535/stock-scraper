@@ -33,6 +33,7 @@ function getHistoricalData (stockTicker, date1, date2, type, frequency){
     var url = constructQueryString(stockTicker, date1, date2, type, frequency);
 }
 
+//function for constructing query string
 function constructQueryString(stockTicker, date1, date2, type, frequency){
     //Object for all query data
     //Must be contructed before call to get webpage
