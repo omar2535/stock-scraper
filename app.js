@@ -7,4 +7,4 @@ var historyScraper = require('./historical-data.js');
 // }, 3000);
 
 
-historyScraper.getHistoricalData("BCE.TO", new Date('May 1, 2008'), new Date(), "dividend", "monthly");
+historyScraper.getHistoricalData("BCE.TO", new Date('May 1, 2002'), new Date(), "historical", "monthly");

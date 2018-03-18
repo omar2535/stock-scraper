@@ -30,13 +30,46 @@ var queryTable = {
 * @param {string} type (the type of data wanted: CHOOSE BETWEEN "DIVIDEND", "HISTORICAL", or "SPLITS")
 * @param {string} frequency (the frequency between each data set: CHOOSE BETWEEN "DAILY", "WEEKLY", or "MONTHLY")
 */
+
 function getHistoricalData (stockTicker, date1, date2, type, frequency){
     var url = constructQueryString(stockTicker, date1, date2, type, frequency);
     request(url, function(err, respose, html){
         if(!err){
             var $ = cheerio.load(html);
-            console.log(html);
-        }else{
+            cheerioTableparser($);
+            var data = $('#Col1-1-HistoricalDataTable-Proxy').parsetable(false, false, true);
+            var returnData = {};
+            if(type = "dividend"){
+                for(var i=1; i<data[0].length-1; i++){
+                    var name =  data[0][i];
+                    var value = data[1][i];
+                    returnData[name] = value;
+                }
+            }
+            if(type = "historical"){
+                for(var i=1; i<data[0].length-1; i++){
+                    var name =  data[0][i];
+                    //make sure no overwritten data from dividend dates
+                    if(!data[1][i].includes("Dividend")){
+                        var value = {
+                            open: data[1][i],
+                            high: data[2][i],
+                            low:  data[3][i],
+                            close: data[4][i],
+                            adjustedClose: data[5][i],
+                            volume: data[6][i],
+                        };
+                        returnData[name] = value;
+                    }
+                }
+            }
+            
+            return returnData;
+
+
+        }
+        
+        else{
             console.log("error in connecting");
         }
     });
@@ -55,7 +88,6 @@ function constructQueryString(stockTicker, date1, date2, type, frequency){
     var URL = "https://ca.finance.yahoo.com/quote/" + stockTicker + "/history?period1=" + querySettings.fromDate+ "&period2="+querySettings.toDate+ "&filter="+querySettings.show+"&frequency="+querySettings.frequency;
     console.log(`the url is: ${URL}`);
     return URL;
-    
 }
 
 
