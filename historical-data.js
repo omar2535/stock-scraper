@@ -10,9 +10,6 @@ date is always since start of inception until stated otherwise
     MUST CHECK STATUS OF RETURNED OBJECT BEFORE PARSIN, STATUS WILL BE ONE OF "FAIL", "SUCCESS"
 */
 
-module.exports = {
-    getHistoricalData,
-}
 //Query Table to keep track of current enums for Yahoo Finance
 var queryTable = {
     monthly: "1mo",
@@ -23,23 +20,23 @@ var queryTable = {
     splits: "split",
 }
 
-
 /** function for getting historical data
 * @param {string} stockTicker (the stock ticker)
 * @param {date} date1 (the date you want your data FROM)
 * @param {date} date2 (the date you wnat your data UNTIL)
 * @param {string} type (the type of data wanted: CHOOSE BETWEEN "DIVIDEND", "HISTORICAL", or "SPLITS")
 * @param {string} frequency (the frequency between each data set: CHOOSE BETWEEN "DAILY", "WEEKLY", or "MONTHLY")
+* @param {callback} callback (function to call after data is finished parsing, returnData is passed into callback)
 */
-
-function getHistoricalData (stockTicker, date1, date2, type, frequency){
+module.exports = (stockTicker, date1, date2, type, frequency, callback)=>{
     var url = constructQueryString(stockTicker, date1, date2, type, frequency);
+    var returnData = {};
+
     request(url, function(err, respose, html){
         if(!err){
             var $ = cheerio.load(html);
             cheerioTableparser($);
             var data = $('#Col1-1-HistoricalDataTable-Proxy').parsetable(false, false, true);
-            var returnData = {};
             if(type == "dividend"){
                 if(data[0].length >3){
                     returnData["status"] = "success";
@@ -53,13 +50,13 @@ function getHistoricalData (stockTicker, date1, date2, type, frequency){
                 }
             }
             if(type == "historical"){
+                if(data[0].length <=3){
+                    returnData["status"] = "success";
+                }else{
+                    returnData["status"] = "fail";
+                }
                 for(var i=1; i<data[0].length-1; i++){
                     var name =  data[0][i];
-                    if(data[0].length <=3){
-                        returnData["status"] = "success";
-                    }else{
-                        returnData["status"] = "fail";
-                    }
                     //make sure no overwritten data from dividend dates
                     if(!data[1][i].includes("Dividend")){
                         var value = {
@@ -86,13 +83,15 @@ function getHistoricalData (stockTicker, date1, date2, type, frequency){
                     returnData[name] = value;
                 }
             }
-            //console.log(returnData);        
-            return returnData;
+            //console.log(returnData);  
+            //return returnData;      
         }else{
             console.log("error in making request to URL, please check your function parameters!");
         }
+        callback(returnData);
     });
 }
+
 
 //function for constructing query string
 function constructQueryString(stockTicker, date1, date2, type, frequency){
@@ -105,7 +104,7 @@ function constructQueryString(stockTicker, date1, date2, type, frequency){
         frequency: queryTable[frequency],
     }
     var URL = "https://ca.finance.yahoo.com/quote/" + stockTicker + "/history?period1=" + querySettings.fromDate+ "&period2="+querySettings.toDate+ "&filter="+querySettings.show+"&frequency="+querySettings.frequency;
-    console.log(`the url is: ${URL}`);
+    //console.log(`the url is: ${URL}`);
     return URL;
 }
 

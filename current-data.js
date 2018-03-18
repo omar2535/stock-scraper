@@ -5,8 +5,9 @@ const cheerioTableparser = require('cheerio-tableparser');
 //passes stock ticker to be searched for
 /** 
 * @param {string} StockTicker (the stock ticker)
+* @param {callback} Callback (the callback funciton where data will be passed int)
 **/
-module.exports = (stockTicker)=>{
+module.exports = (stockTicker, callback)=>{
     
     //Requests from the URL constructed
     request(constrctUrl(stockTicker), function(err, resp, html) {
@@ -28,7 +29,8 @@ module.exports = (stockTicker)=>{
                     dayChangeInPrice: priceData.dayChangePrice,
                     statistics: getStatistics($),
                 }
-                return returnObject;
+                // return returnObject;
+                callback(returnObject);
             }else{
                 console.log("invalid ticker symbol");
             }
