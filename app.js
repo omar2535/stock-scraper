@@ -7,4 +7,4 @@ var historyScraper = require('./historical-data.js');
 // }, 3000);
 
 
-historyScraper.getHistoricalData("BCE.TO", new Date('May 1, 2002'), new Date(), "historical", "monthly");
+historyScraper.getHistoricalData("BCE.TO", new Date('May 06, 1996'), new Date(), "splits", "monthly");

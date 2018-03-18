@@ -7,6 +7,7 @@ DOCUMENTATION:
 date is always since start of inception until stated otherwise
     all date must be in time format of milliseconds since January 1, 1970, 00:00:00.
     To call the getHistorical data function, date1 and 2 must be passed in as new dates of format: new Date('MONTH DATE, YEAR')
+    MUST CHECK STATUS OF RETURNED OBJECT BEFORE PARSIN, STATUS WILL BE ONE OF "FAIL", "SUCCESS"
 */
 
 module.exports = {
@@ -39,16 +40,26 @@ function getHistoricalData (stockTicker, date1, date2, type, frequency){
             cheerioTableparser($);
             var data = $('#Col1-1-HistoricalDataTable-Proxy').parsetable(false, false, true);
             var returnData = {};
-            if(type = "dividend"){
+            if(type == "dividend"){
+                if(data[0].length >3){
+                    returnData["status"] = "success";
+                }else{
+                    returnData["status"] = "fail";
+                }
                 for(var i=1; i<data[0].length-1; i++){
                     var name =  data[0][i];
                     var value = data[1][i];
                     returnData[name] = value;
                 }
             }
-            if(type = "historical"){
+            if(type == "historical"){
                 for(var i=1; i<data[0].length-1; i++){
                     var name =  data[0][i];
+                    if(data[0].length <=3){
+                        returnData["status"] = "success";
+                    }else{
+                        returnData["status"] = "fail";
+                    }
                     //make sure no overwritten data from dividend dates
                     if(!data[1][i].includes("Dividend")){
                         var value = {
@@ -63,14 +74,22 @@ function getHistoricalData (stockTicker, date1, date2, type, frequency){
                     }
                 }
             }
-            
+            if(type == "splits"){
+                if(data[0][1]=="No Split"){
+                    returnData["status"] = "fail";
+                }else{
+                    returnData["status"] = "success";
+                }
+                for(var i=1; i<data[0].length-1; i++){
+                    var name =  data[0][i];
+                    var value = data[1][i];
+                    returnData[name] = value;
+                }
+            }
+            //console.log(returnData);        
             return returnData;
-
-
-        }
-        
-        else{
-            console.log("error in connecting");
+        }else{
+            console.log("error in making request to URL, please check your function parameters!");
         }
     });
 }
