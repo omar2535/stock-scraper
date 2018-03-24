@@ -17,4 +17,4 @@ var historyScraper = require('./historical-data.js');
 
 stockScraper("BCE.TO", (data)=>{
     console.log(data);
-})
+});

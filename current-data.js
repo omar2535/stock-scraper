@@ -4,8 +4,8 @@ const cheerioTableparser = require('cheerio-tableparser');
 
 //passes stock ticker to be searched for
 /** 
-* @param {string} StockTicker (the stock ticker)
-* @param {callback} Callback (the callback funciton where data will be passed int)
+* @param {string} StockTicker the stock ticker
+* @param {callback} Callback contains return statistics of stock
 **/
 module.exports = (stockTicker, callback)=>{
     
