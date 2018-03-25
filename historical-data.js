@@ -33,6 +33,7 @@ module.exports = (stockTicker, date1, date2, type, frequency, callback)=>{
     var returnData = {};
 
     request(url, function(err, respose, html){
+        var requestStatusError = false;
         if(!err){
             var $ = cheerio.load(html);
             cheerioTableparser($);
@@ -82,13 +83,11 @@ module.exports = (stockTicker, date1, date2, type, frequency, callback)=>{
                     var value = data[1][i];
                     returnData[name] = value;
                 }
-            }
-            //console.log(returnData);  
-            //return returnData;      
+            }    
         }else{
-            console.log("error in making request to URL, please check your function parameters!");
+            requestStatusError = true;
         }
-        callback(returnData);
+        callback(requestStatusError, returnData);
     });
 }
 

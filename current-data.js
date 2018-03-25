@@ -5,7 +5,7 @@ const cheerioTableparser = require('cheerio-tableparser');
 //passes stock ticker to be searched for
 /** 
 * @param {string} StockTicker the stock ticker
-* @param {callback} Callback contains return statistics of stock
+* @param {callback} Callback contains return statistics of stock and has error check in front
 **/
 module.exports = (stockTicker, callback)=>{
     
@@ -30,9 +30,9 @@ module.exports = (stockTicker, callback)=>{
                     statistics: getStatistics($),
                 }
                 // return returnObject;
-                callback(returnObject);
+                callback(false,returnObject);
             }else{
-                console.log("invalid ticker symbol");
+                callback(true, "invalid ticker symbol");
             }
         }
     });
