@@ -20,9 +20,8 @@ module.exports =(dataType, stockTicker, callback)=>{
 
 
 //function for constructing URL
+//Must be contructed before call to get webpage
 function constructURL(dataType, stockTicker){
-    //Object for all query data
-    //Must be contructed before call to get webpage
     var URL = "";
     switch(dataType){
         case "income":
@@ -39,7 +38,5 @@ function constructURL(dataType, stockTicker){
             URL = "https://ca.finance.yahoo.com/quote/" + stockTicker + "/financials?p="+stockTicker;
             break;
     }
-    
-    console.log(`the url is: ${URL}`);
     return URL;
 }
