@@ -1,6 +1,7 @@
 //Initialise the dependancies
 var stockScraper = require('./current-data');
 var historyScraper = require('./historical-data.js');
+var financialScraper = require('./financial-data');
 
 // setInterval(()=>{
 //     stockScraper("BCE.TO");
@@ -15,7 +16,11 @@ var historyScraper = require('./historical-data.js');
 //         console.log(data);
 // });
 
-stockScraper("BCE.TO", (err, data)=>{
-    console.log(data);
-    console.log(err);
+// stockScraper("BCE.TO", (err, data)=>{
+//     console.log(data);
+//     console.log(err);
+// });
+
+financialScraper("", "BCE.TO", (err, data)=>{
+
 });
