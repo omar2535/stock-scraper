@@ -9,10 +9,26 @@ const cheerioTableparser = require('cheerio-tableparser');
 */
 module.exports =(dataType, stockTicker, callback)=>{
     var URL = constructURL(dataType, stockTicker);
+    var returnData = {};
+    var requestStatusError = false;
 
-    //stubs
-    var data;
-    callback(false, data);
+    request(URL, (err, response, html)=>{
+        if(!err){
+            var $ = cheerio.load(html);
+            cheerioTableparser($);
+            console.log(html);
+
+
+
+
+            
+        }else{
+            requestStatusError = true;
+        }
+    });
+
+
+    callback(requestStatusError, returnData);
 }
 
 
