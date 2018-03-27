@@ -16,12 +16,19 @@ module.exports =(dataType, stockTicker, callback)=>{
         if(!err){
             var $ = cheerio.load(html);
             cheerioTableparser($);
-            console.log(html);
-
-
-
-
+            var data = $('#Main').parsetable(false, false, true);
             
+            for(var i = 1; i<data.length; i++){
+                var dataAccum = {};
+                for(var x=0; x<data[0].length; x++){
+                    var name = data[0][x];
+                    var value = data[i][x];
+                    dataAccum[name] = value;
+                }
+                var date = data[i][0];
+                returnData[date] = dataAccum;
+            }
+            console.log(returnData);
         }else{
             requestStatusError = true;
         }
