@@ -21,6 +21,6 @@ var financialScraper = require('./financial-data');
 //     console.log(err);
 // });
 
-financialScraper("balance", "BCE.TO", (err, data)=>{
+financialScraper("", "IBM", (err, data)=>{
 
 });
