@@ -18,7 +18,7 @@ var queryTable = {
     dividend: "div",
     historical: "history",
     splits: "split",
-}
+};
 
 /** function for getting historical data
 * @param {string} stockTicker (the stock ticker)
