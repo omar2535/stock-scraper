@@ -1,6 +1,6 @@
 var expect = require('chai').expect ;
 var assert = require('assert');
-var getCurrentData = require('../current-data.js');
+var getCurrentData = require('../scripts/current-data');
 var sinon = require('sinon');
 var chai = require('chai');
 chai.use(require('sinon-chai'));

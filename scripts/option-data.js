@@ -10,5 +10,4 @@ const cheerioTableparser = require("cheerio-tableparser");
 
 module.exports = ()=>{
     
-
 };
