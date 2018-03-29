@@ -8,24 +8,24 @@ const cheerioTableparser = require('cheerio-tableparser');
 *@param {callback} callback that will be passed, contains err and data
 */
 module.exports =(dataType, stockTicker, callback)=>{
-    var URL = constructURL(dataType, stockTicker);
-    var returnData = {};
-    var requestStatusError = false;
+    let URL = constructURL(dataType, stockTicker);
+    let returnData = {};
+    let requestStatusError = false;
 
     request(URL, (err, response, html)=>{
         if(!err){
-            var $ = cheerio.load(html);
+            let $ = cheerio.load(html);
             cheerioTableparser($);
-            var data = $('#Main').parsetable(false, false, true);
+            let data = $('#Main').parsetable(false, false, true);
             
-            for(var i = 1; i<data.length; i++){
-                var dataAccum = {};
-                for(var x=0; x<data[0].length; x++){
-                    var name = data[0][x];
-                    var value = data[i][x];
+            for(let i = 1; i<data.length; i++){
+                let dataAccum = {};
+                for(let x=0; x<data[0].length; x++){
+                    let name = data[0][x];
+                    let value = data[i][x];
                     dataAccum[name] = value;
                 }
-                var date = data[i][0];
+                let date = data[i][0];
                 returnData[date] = dataAccum;
             }
             console.log(returnData);
@@ -44,7 +44,7 @@ module.exports =(dataType, stockTicker, callback)=>{
 //function for constructing URL
 //Must be contructed before call to get webpage
 function constructURL(dataType, stockTicker){
-    var URL = "";
+    let URL = "";
     switch(dataType){
         case "income":
             URL = "https://ca.finance.yahoo.com/quote/" + stockTicker + "/financials?p="+stockTicker;

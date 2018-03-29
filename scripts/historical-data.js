@@ -11,7 +11,7 @@ date is always since start of inception until stated otherwise
 */
 
 //Query Table to keep track of current enums for Yahoo Finance
-var queryTable = {
+let queryTable = {
     monthly: "1mo",
     weekly: "1wk",
     daily: "1d", 
@@ -29,24 +29,24 @@ var queryTable = {
 * @param {callback} callback (function to call after data is finished parsing, returnData is passed into callback)
 */
 module.exports = (stockTicker, date1, date2, type, frequency, callback)=>{
-    var url = constructQueryString(stockTicker, date1, date2, type, frequency);
-    var returnData = {};
+    let url = constructQueryString(stockTicker, date1, date2, type, frequency);
+    let returnData = {};
 
     request(url, function(err, respose, html){
-        var requestStatusError = false;
+        let requestStatusError = false;
         if(!err){
-            var $ = cheerio.load(html);
+            let $ = cheerio.load(html);
             cheerioTableparser($);
-            var data = $('#Col1-1-HistoricalDataTable-Proxy').parsetable(false, false, true);
+            let data = $('#Col1-1-HistoricalDataTable-Proxy').parsetable(false, false, true);
             if(type == "dividend"){
                 if(data[0].length >3){
                     returnData["status"] = "success";
                 }else{
                     returnData["status"] = "fail";
                 }
-                for(var i=1; i<data[0].length-1; i++){
-                    var name =  data[0][i];
-                    var value = data[1][i];
+                for(let i=1; i<data[0].length-1; i++){
+                    let name =  data[0][i];
+                    let value = data[1][i];
                     returnData[name] = value;
                 }
             }
@@ -56,11 +56,11 @@ module.exports = (stockTicker, date1, date2, type, frequency, callback)=>{
                 }else{
                     returnData["status"] = "fail";
                 }
-                for(var i=1; i<data[0].length-1; i++){
-                    var name =  data[0][i];
+                for(let i=1; i<data[0].length-1; i++){
+                    let name =  data[0][i];
                     //make sure no overwritten data from dividend dates
                     if(!data[1][i].includes("Dividend")){
-                        var value = {
+                        let value = {
                             open: data[1][i],
                             high: data[2][i],
                             low:  data[3][i],
@@ -78,9 +78,9 @@ module.exports = (stockTicker, date1, date2, type, frequency, callback)=>{
                 }else{
                     returnData["status"] = "success";
                 }
-                for(var i=1; i<data[0].length-1; i++){
-                    var name =  data[0][i];
-                    var value = data[1][i];
+                for(let i=1; i<data[0].length-1; i++){
+                    let name =  data[0][i];
+                    let value = data[1][i];
                     returnData[name] = value;
                 }
             }    
@@ -96,13 +96,13 @@ module.exports = (stockTicker, date1, date2, type, frequency, callback)=>{
 function constructQueryString(stockTicker, date1, date2, type, frequency){
     //Object for all query data
     //Must be contructed before call to get webpage
-    var querySettings = {
+    let querySettings = {
         fromDate: Math.floor(date1.getTime() / 1000),
         toDate: Math.floor(date2.getTime() / 1000),
         show: queryTable[type],
         frequency: queryTable[frequency],
     }
-    var URL = "https://ca.finance.yahoo.com/quote/" + stockTicker + "/history?period1=" + querySettings.fromDate+ "&period2="+querySettings.toDate+ "&filter="+querySettings.show+"&frequency="+querySettings.frequency;
+    let URL = "https://ca.finance.yahoo.com/quote/" + stockTicker + "/history?period1=" + querySettings.fromDate+ "&period2="+querySettings.toDate+ "&filter="+querySettings.show+"&frequency="+querySettings.frequency;
     //console.log(`the url is: ${URL}`);
     return URL;
 }
