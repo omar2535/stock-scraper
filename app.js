@@ -1,7 +1,7 @@
 //Initialise the dependancies
-var stockScraper = require('./current-data');
-var historyScraper = require('./historical-data.js');
-var financialScraper = require('./financial-data');
+var stockScraper = require('./scripts/current-data');
+var historyScraper = require('./scripts/historical-data');
+var financialScraper = require('./scripts/financial-data');
 
 // setInterval(()=>{
 //     stockScraper("BCE.TO");
