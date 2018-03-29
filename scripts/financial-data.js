@@ -35,7 +35,7 @@ module.exports =(dataType, stockTicker, callback)=>{
         }
     });
     callback(requestStatusError, returnData);
-}
+};
 
 
 
