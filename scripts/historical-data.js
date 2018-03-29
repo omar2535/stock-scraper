@@ -10,8 +10,10 @@ date is always since start of inception until stated otherwise
     MUST CHECK STATUS OF RETURNED OBJECT BEFORE PARSIN, STATUS WILL BE ONE OF "FAIL", "SUCCESS"
 */
 
+
+
 //Query Table to keep track of current enums for Yahoo Finance
-let queryTable = {
+var queryTable = {
     monthly: "1mo",
     weekly: "1wk",
     daily: "1d", 
@@ -29,24 +31,24 @@ let queryTable = {
 * @param {callback} callback (function to call after data is finished parsing, returnData is passed into callback)
 */
 module.exports = (stockTicker, date1, date2, type, frequency, callback)=>{
-    let url = constructQueryString(stockTicker, date1, date2, type, frequency);
-    let returnData = {};
-
+    var url = constructQueryString(stockTicker, date1, date2, type, frequency);
+    var returnData = {};
+    // TODO: this needs to be a CSV parser
     request(url, function(err, respose, html){
-        let requestStatusError = false;
+        var requestStatusError = false;
         if(!err){
-            let $ = cheerio.load(html);
+            var $ = cheerio.load(html);
             cheerioTableparser($);
-            let data = $('#Col1-1-HistoricalDataTable-Proxy').parsetable(false, false, true);
+            var data = $("#Col1-1-HistoricalDataTable-Proxy").parsetable(false, false, true);
             if(type == "dividend"){
                 if(data[0].length >3){
                     returnData["status"] = "success";
                 }else{
                     returnData["status"] = "fail";
                 }
-                for(let i=1; i<data[0].length-1; i++){
-                    let name =  data[0][i];
-                    let value = data[1][i];
+                for(var i=1; i<data[0].length-1; i++){
+                    var name =  data[0][i];
+                    var value = data[1][i];
                     returnData[name] = value;
                 }
             }
@@ -56,11 +58,11 @@ module.exports = (stockTicker, date1, date2, type, frequency, callback)=>{
                 }else{
                     returnData["status"] = "fail";
                 }
-                for(let i=1; i<data[0].length-1; i++){
-                    let name =  data[0][i];
+                for(var i=1; i<data[0].length-1; i++){
+                    var name =  data[0][i];
                     //make sure no overwritten data from dividend dates
                     if(!data[1][i].includes("Dividend")){
-                        let value = {
+                        var value = {
                             open: data[1][i],
                             high: data[2][i],
                             low:  data[3][i],
@@ -78,9 +80,9 @@ module.exports = (stockTicker, date1, date2, type, frequency, callback)=>{
                 }else{
                     returnData["status"] = "success";
                 }
-                for(let i=1; i<data[0].length-1; i++){
-                    let name =  data[0][i];
-                    let value = data[1][i];
+                for(var i=1; i<data[0].length-1; i++){
+                    var name =  data[0][i];
+                    var value = data[1][i];
                     returnData[name] = value;
                 }
             }    
@@ -89,21 +91,22 @@ module.exports = (stockTicker, date1, date2, type, frequency, callback)=>{
         }
         callback(requestStatusError, returnData);
     });
-}
+};
 
 
 //function for constructing query string
 function constructQueryString(stockTicker, date1, date2, type, frequency){
     //Object for all query data
     //Must be contructed before call to get webpage
-    let querySettings = {
+    var querySettings = {
         fromDate: Math.floor(date1.getTime() / 1000),
         toDate: Math.floor(date2.getTime() / 1000),
         show: queryTable[type],
         frequency: queryTable[frequency],
-    }
-    let URL = "https://ca.finance.yahoo.com/quote/" + stockTicker + "/history?period1=" + querySettings.fromDate+ "&period2="+querySettings.toDate+ "&filter="+querySettings.show+"&frequency="+querySettings.frequency;
-    //console.log(`the url is: ${URL}`);
+    };
+    //var URL = "https://ca.finance.yahoo.com/quote/" + stockTicker + "/history?period1=" + querySettings.fromDate+ "&period2="+querySettings.toDate+"&interval"+querySettings.frequency+"&filter="+querySettings.show+"&frequency="+querySettings.frequency;
+    var URL = "https://ca.finance.yahoo.com/quote/BCE.TO/history?period1=831355200&period2=1522296000&interval=1mo&filter=history&frequency=1mo";
+    console.log(`the url is: ${URL}`);
     return URL;
 }
 

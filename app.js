@@ -12,15 +12,15 @@ var financialScraper = require('./scripts/financial-data');
 //     console.log(data);
 // });
 
-// historyScraper("BCE.TO", new Date('May 06, 1996'), new Date(), "splits", "monthly", (data)=>{
-//         console.log(data);
-// });
+historyScraper("BCE.TO", new Date('May 06, 1996'), new Date(), "historical", "monthly", (err,data)=>{
+        console.log(data);
+});
 
 // stockScraper("BCE.TO", (err, data)=>{
 //     console.log(data);
 //     console.log(err);
 // });
 
-financialScraper("", "IBM", (err, data)=>{
+// financialScraper("", "IBM", (err, data)=>{
 
-});
+// });
