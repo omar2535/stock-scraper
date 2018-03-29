@@ -28,7 +28,7 @@ module.exports = (stockTicker, callback)=>{
                     dayChangeInPercent: priceData.dayChangePercent,
                     dayChangeInPrice: priceData.dayChangePrice,
                     statistics: getStatistics($),
-                }
+                };
                 // return returnObject;
                 callback(false,returnObject);
             }else{
