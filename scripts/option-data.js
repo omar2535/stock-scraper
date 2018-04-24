@@ -8,10 +8,25 @@ const cheerio = require("cheerio");
 const cheerioTableparser = require("cheerio-tableparser");
 
 
+
+/**
+ * 
+ * @param {Ticker For Stock} stockTicker 
+ * @param {Callback Function(err, body)} callback 
+ */
 module.exports = (stockTicker, callback)=>{
     let URL = constructURL(stockTicker);
     let returnData = {};
     let requestStatusError = false;
+
+    request(URL, (err, response, html)=>{
+        if(!err){
+
+
+
+        }
+    });
+
 
 };
 
