@@ -26,5 +26,6 @@ var optionsScraper = require('./scripts/option-data');
 // });
 
 optionsScraper("BCE.TO", (err, data)=>{
-
+    console.log(err);
+    console.log(data);
 });
