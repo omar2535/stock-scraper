@@ -21,13 +21,12 @@ module.exports = (stockTicker, callback)=>{
 
     request(URL, (err, response, html)=>{
         if(!err){
-
-
-
+            let $ = cheerio.load(html);
+            cheerioTableparser($);
+            var isAvailable = $('#Main').text();
+            console.log(isAvailable);
         }
     });
-
-
 };
 
 
