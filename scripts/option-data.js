@@ -24,13 +24,18 @@ module.exports = (stockTicker, callback)=>{
             let $ = cheerio.load(html);
             cheerioTableparser($);
             var isAvailable = $('#Main').text();
-            console.log(isAvailable);
             //if unavailble
-            if(isAvailable == "Options data is not available"){
-                returnData.status = error;
+            if(isAvailable == "Options data is not available."){
+                returnData.status = "unavailble";
+                callback(true, returnData);
+                return;
             }
+            //else availble
+            var data = $("#Main").parsetable(false, false, true);
+            console.log(data);
+
         }
-        callback(true, returnData);
+
     });
 };
 
