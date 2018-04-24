@@ -32,7 +32,24 @@ module.exports = (stockTicker, callback)=>{
             }
             //else availble
             var data = $("#Main").parsetable(false, false, true);
-            console.log(data);
+            var calls = {};
+            for(var i=1; i<=30; i++){
+                var set = {
+                    tradeDate: data[1][i],
+                    strikePrice: data[2][i],
+                    lastPrice: data[3][i],
+                    bids: data[4][i],
+                    asks: data[5][i],
+                    change: data[6][i],
+                    percentChange: data[7][i],
+                    volume: data[8][i],
+                    openInterest: data[9][i],
+                    impliedVolatility: data[10][i],
+                };
+                calls[data[0][i]] = set;
+            }
+            returnData.calls = calls;
+            console.log(returnData);
 
         }
 
