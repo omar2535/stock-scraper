@@ -7,12 +7,16 @@ const request = require("request");
 const cheerio = require("cheerio");
 const cheerioTableparser = require("cheerio-tableparser");
 
-
+/**
+ *@callback callbackForOptionsData   
+ *@param {bool} err
+ *@param {JSON} data
+ * /
 
 /**
  * 
- * @param {Ticker For Stock} stockTicker 
- * @param {Callback Function(err, body)} callback 
+ * @param {String} stockTicker 
+ * @param {callbackForOptionsData} callback 
  */
 module.exports = (stockTicker, callback)=>{
     let URL = constructURL(stockTicker);
@@ -74,7 +78,6 @@ module.exports = (stockTicker, callback)=>{
             returnData.calls = calls;
             returnData.puts = puts;
             console.log(returnData);
-            
         }
 
     });

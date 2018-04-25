@@ -1,3 +1,5 @@
+import { request } from 'http';
+
 //Initialise the dependancies
 var stockScraper = require('./scripts/current-data');
 var historyScraper = require('./scripts/historical-data');
@@ -26,6 +28,6 @@ var optionsScraper = require('./scripts/option-data');
 // });
 
 optionsScraper("IBM", (err, data)=>{
-    console.log(err);
     console.log(data);
 });
+
