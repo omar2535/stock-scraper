@@ -32,8 +32,15 @@ module.exports = (stockTicker, callback)=>{
             }
             //else availble
             var data = $("#Main").parsetable(false, false, true);
+
+            var lengthOfEachRow = data[0].length;
+            var puts = {};
             var calls = {};
-            for(var i=1; i<=30; i++){
+            var indexOfSeperation = findIndexOfSeperation(data, lengthOfEachRow);
+            //index of seperation represents the seperation index between calls and puts. If index = 31, it means next set starts at index 32.
+
+            //first Set (calls)
+            for(var i=0; i<indexOfSeperation; i++){
                 var set = {
                     tradeDate: data[1][i],
                     strikePrice: data[2][i],
@@ -48,9 +55,26 @@ module.exports = (stockTicker, callback)=>{
                 };
                 calls[data[0][i]] = set;
             }
+            //second set (puts)
+            for(var x=indexOfSeperation+1; x<lengthOfEachRow; x++){
+                var set = {
+                    tradeDate: data[1][x],
+                    strikePrice: data[2][x],
+                    lastPrice: data[3][x],
+                    bids: data[4][x],
+                    asks: data[5][x],
+                    change: data[6][x],
+                    percentChange: data[7][x],
+                    volume: data[8][x],
+                    openInterest: data[9][x],
+                    impliedVolatility: data[10][x],
+                };
+                puts[data[0][x]] = set;
+            }
             returnData.calls = calls;
+            returnData.puts = puts;
             console.log(returnData);
-
+            
         }
 
     });
@@ -65,4 +89,14 @@ function constructURL(stockTicker) {
     URL = `https://ca.finance.yahoo.com/quote/${stockTicker}/options?p=${stockTicker}`;
     console.log(URL);
     return URL;
+}
+
+function findIndexOfSeperation(data, lengthOfEachRow){
+    var index = 0;
+    for (var i = 0; i < lengthOfEachRow; i++) {
+        if (data[0][i].includes("Contract")) {
+            index = i;
+        }
+    }
+    return index;
 }
