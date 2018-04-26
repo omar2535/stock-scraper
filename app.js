@@ -1,4 +1,3 @@
-import { request } from 'http';
 
 //Initialise the dependancies
 var stockScraper = require('./scripts/current-data');
@@ -16,7 +15,7 @@ var optionsScraper = require('./scripts/option-data');
 
 // stockScraper("BCE.TO", (err, data)=>{
 //     console.log(data);
-//     console.log(err);
+//     //console.log(err);
 // });
 
 // financialScraper("", "IBM", (err, data)=>{

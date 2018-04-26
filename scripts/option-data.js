@@ -45,7 +45,7 @@ module.exports = (stockTicker, callback)=>{
 
             //first Set (calls)
             for(var i=0; i<indexOfSeperation; i++){
-                var set = {
+                var set1 = {
                     tradeDate: data[1][i],
                     strikePrice: data[2][i],
                     lastPrice: data[3][i],
@@ -57,11 +57,11 @@ module.exports = (stockTicker, callback)=>{
                     openInterest: data[9][i],
                     impliedVolatility: data[10][i],
                 };
-                calls[data[0][i]] = set;
+                calls[data[0][i]] = set1;
             }
             //second set (puts)
             for(var x=indexOfSeperation+1; x<lengthOfEachRow; x++){
-                var set = {
+                var set2 = {
                     tradeDate: data[1][x],
                     strikePrice: data[2][x],
                     lastPrice: data[3][x],
@@ -73,7 +73,7 @@ module.exports = (stockTicker, callback)=>{
                     openInterest: data[9][x],
                     impliedVolatility: data[10][x],
                 };
-                puts[data[0][x]] = set;
+                puts[data[0][x]] = set2;
             }
             returnData.calls = calls;
             returnData.puts = puts;
