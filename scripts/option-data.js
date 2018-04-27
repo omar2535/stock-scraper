@@ -18,8 +18,8 @@ const cheerioTableparser = require("cheerio-tableparser");
  * @param {String} stockTicker 
  * @param {callbackForOptionsData} callback 
  */
-module.exports = (stockTicker, callback)=>{
-    let URL = constructURL(stockTicker);
+module.exports = (stockTicker, exDate, callback)=>{
+    let URL = constructURL(stockTicker, exDate);
     let returnData = {};
     let requestStatusError = false;
 
@@ -44,7 +44,7 @@ module.exports = (stockTicker, callback)=>{
             //index of seperation represents the seperation index between calls and puts. If index = 31, it means next set starts at index 32.
 
             //first Set (calls)
-            for(var i=0; i<indexOfSeperation; i++){
+            for(var i=1; i<indexOfSeperation; i++){
                 var set1 = {
                     tradeDate: data[1][i],
                     strikePrice: data[2][i],
@@ -87,10 +87,16 @@ module.exports = (stockTicker, callback)=>{
 
 //function for constructing URL
 //Must be contructed before call to get webpage
-function constructURL(stockTicker) {
+function constructURL(stockTicker, exDate) {
     let URL = "";
-    URL = `https://ca.finance.yahoo.com/quote/${stockTicker}/options?p=${stockTicker}`;
-    console.log(URL);
+    if(exDate){
+        var date = new Date(exDate).getTime()/1000;
+        URL = `https://ca.finance.yahoo.com/quote/${stockTicker}/options?p=${stockTicker}&date=${date}`;
+    }else{
+        console.log("date not inputted or incorrect format, defaulting to in money");
+        URL = `https://ca.finance.yahoo.com/quote/${stockTicker}/options?p=${stockTicker}`;
+    }
+    //console.log(URL);
     return URL;
 }
 

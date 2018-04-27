@@ -30,13 +30,16 @@ app.listen(PORT, ()=>{
 app.get('/api/:query', function(req, res){
     var query = req.params.query;
     //console.log(query);
-    //console.log(req.query);
+    console.log(req.query);
     switch(query){
         case "stock":
             stockHandler(req.query, req, res);
             break;
         case "financials":
             financialsHandler(req.query, req, res);
+            break;
+        case "options":
+            optionsHandlder(req.query, req, res);
             break;
         default:
             break;
@@ -76,11 +79,23 @@ function financialsHandler(params, req, res){
     });
 }
 
-function optionsHandlder(params, req, res){
-
+//REQUIRES: date and ticker
+//ex: api/options?symbol=IBM&date=2018-05-04
+function optionsHandlder(params, req, res) {
+    var ticker = params.symbol;
+    var date = params.date;
+    if(!date){
+        //console.log("no date");
+        date = "";
+    }
+    optionsScraper(ticker, date, (err, data)=>{
+        console.log(`Sent options data for ${ticker}`);
+        res.send(data);
+    });
 }
 
 function historyHandler(params, req, res) {
-
+    var ticker = params.symbol;
+    
 }
 
