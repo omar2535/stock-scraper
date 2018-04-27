@@ -42,6 +42,12 @@ app.get('/api/:query', function(req, res){
 });
 
 //passed symbol in query string
+/**
+ * 
+ * @param {JSON} params 
+ * @param {HTTP Request Object} req 
+ * @param {HTTP Response Object} res 
+ */
 function stockHandler(params, req, res){
     var ticker = params.symbol;
     stockScraper(ticker, (err, data) => {
