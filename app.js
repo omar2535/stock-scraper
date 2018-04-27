@@ -85,7 +85,6 @@ function optionsHandlder(params, req, res) {
     var ticker = params.symbol;
     var date = params.date;
     if(!date){
-        //console.log("no date");
         date = "";
     }
     optionsScraper(ticker, date, (err, data)=>{
@@ -94,8 +93,16 @@ function optionsHandlder(params, req, res) {
     });
 }
 
+//REQUIRES: start date, end date and ticker
+//ex: api/options?symbol=IBM&from=2016-07-18&to=2017-07-07
 function historyHandler(params, req, res) {
     var ticker = params.symbol;
-    
+    var from = params.from;
+    var to = params.to;
+    var type = params.type;
+    var frequency = params.frequency;
+    historyScraper(ticker, to, from, type, frequency, (err, data)=>{
+
+    });
 }
 
