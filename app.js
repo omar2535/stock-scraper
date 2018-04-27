@@ -1,32 +1,28 @@
-
-//Initialise the dependancies
+//Initialise the dependancies for scripts
 var stockScraper = require('./scripts/current-data');
 var historyScraper = require('./scripts/historical-data');
 var financialScraper = require('./scripts/financial-data');
 var optionsScraper = require('./scripts/option-data');
 
-// historyScraper.getHistoricalData("BCE.TO", new Date('May 06, 1996'), new Date(), "historical", "monthly", (data)=>{
-//     console.log(data);
-// });
+//dependancies for API server
+const express = require('express');
+const bodyParser = require('body-parser');
+const path = require('path');
 
-// historyScraper("BCE.TO", new Date('May 06, 1996'), new Date(), "historical", "monthly", (err,data)=>{
-//         console.log(data);
-// });
+var app = express();
 
-// stockScraper("BCE.TO", (err, data)=>{
-//     console.log(data);
-//     //console.log(err);
-// });
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static(__dirname + '/static'));
 
-// financialScraper("", "IBM", (err, data)=>{
+var PORT = (process.env.PORT || 3000);
 
-// });
-
-// stockScraper("BCE.TO", (err, data)=>{
-//         console.log(data);
-// });
-
-optionsScraper("IBM", (err, data)=>{
-    console.log(data);
+//wait for start
+app.listen(PORT, ()=>{
+    console.log(`App running on ${PORT}`);
 });
 
+
+app.get('/api:query', function(req, res){
+    var query = req.params.query;
+    console.log(query);
+});

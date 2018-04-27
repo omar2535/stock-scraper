@@ -77,8 +77,8 @@ module.exports = (stockTicker, callback)=>{
             }
             returnData.calls = calls;
             returnData.puts = puts;
-            console.log(returnData);
         }
+        callback(false, returnData);
 
     });
 };
