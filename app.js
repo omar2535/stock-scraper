@@ -22,7 +22,7 @@ app.listen(PORT, ()=>{
 });
 
 
-app.get('/api:query', function(req, res){
+app.get('/api/:query', function(req, res){
     var query = req.params.query;
     console.log(query);
 });
