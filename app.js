@@ -29,11 +29,14 @@ app.listen(PORT, ()=>{
 
 app.get('/api/:query', function(req, res){
     var query = req.params.query;
-    console.log(query);
-    console.log(req.query);
+    //console.log(query);
+    //console.log(req.query);
     switch(query){
         case "stock":
             stockHandler(req.query, req, res);
+            break;
+        case "financials":
+            financialsHandler(req.query, req, res);
             break;
         default:
             break;
@@ -42,6 +45,7 @@ app.get('/api/:query', function(req, res){
 });
 
 //passed symbol in query string
+//ex: /api/stock?symbol="BCE.TO"
 /**
  * 
  * @param {JSON} params 
@@ -51,20 +55,32 @@ app.get('/api/:query', function(req, res){
 function stockHandler(params, req, res){
     var ticker = params.symbol;
     stockScraper(ticker, (err, data) => {
+        console.log(`Sent stock data for ${ticker}`);
         res.send(data);
     });
 }
 
-function historyHandler(params, req, res){
-
-}
-
+//REQUIRES: type of data and ticker
+//ex: /api/financials?symbol=BCE.TO&type=income
+//one of three types: income, balance, or cash
+//default to cash
 function financialsHandler(params, req, res){
-
+    var ticker = params.symbol;
+    var datatype = params.type;
+    if(!datatype){
+        datatype = "income";
+    }
+    financialScraper(datatype, ticker, (err, data)=>{
+        console.log(`Sent stock financials for ${ticker} with type ${datatype}`);
+        res.send(data);
+    });
 }
 
 function optionsHandlder(params, req, res){
 
 }
 
+function historyHandler(params, req, res) {
+
+}
 

@@ -18,10 +18,10 @@ module.exports = (stockTicker, callback)=>{
 
                 let $ = cheerio.load(html);
                 let priceData = getPriceData($);
-                console.log("Current price: ", priceData.price);
-                console.log("Day change($): ", priceData.dayChangePrice);
-                console.log("Day change(%): ", priceData.dayChangePercent);
-                console.log(getStatistics($));
+                //console.log("Current price: ", priceData.price);
+                //console.log("Day change($): ", priceData.dayChangePrice);
+                //console.log("Day change(%): ", priceData.dayChangePercent);
+                //console.log(getStatistics($));
                 
                 let returnObject = {
                     currentPrice: priceData.price,

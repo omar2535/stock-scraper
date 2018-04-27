@@ -10,7 +10,6 @@ const cheerioTableparser = require('cheerio-tableparser');
 module.exports =(dataType, stockTicker, callback)=>{
     let URL = constructURL(dataType, stockTicker);
     let returnData = {};
-    let requestStatusError = false;
 
     request(URL, (err, response, html)=>{
         if(!err){
@@ -28,13 +27,16 @@ module.exports =(dataType, stockTicker, callback)=>{
                 let date = data[i][0];
                 returnData[date] = dataAccum;
             }
-            console.log(returnData);
+            //console.log(returnData);
+            callback(false, returnData);
+            return;
         }
         else{
-            requestStatusError = true;
+            callback(true, "could not request data");
+            return;
         }
     });
-    callback(requestStatusError, returnData);
+    
 };
 
 
