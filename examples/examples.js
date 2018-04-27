@@ -21,10 +21,10 @@ var optionsScraper = require('./scripts/option-data');
 
 // });
 
-// stockScraper("BCE.TO", (err, data)=>{
-//         console.log(data);
-// });
-
-optionsScraper("IBM", (err, data) => {
-    console.log(data);
+stockScraper("BCE.TO", (err, data)=>{
+        console.log(data);
 });
+
+// optionsScraper("IBM", (err, data) => {
+//     console.log(data);
+// });

@@ -21,8 +21,44 @@ app.listen(PORT, ()=>{
     console.log(`App running on ${PORT}`);
 });
 
+//Query string must be in format /api/<option>?<param1=ans1>/<param2=ans2>
+//For Stock In general, just pass Stock ticker
+//For historical, need to pass start and end date
+//for financials, just pass stock name
+//for options, also just pass stock name
 
 app.get('/api/:query', function(req, res){
     var query = req.params.query;
     console.log(query);
+    console.log(req.query);
+    switch(query){
+        case "stock":
+            stockHandler(req.query, req, res);
+            break;
+        default:
+            break;
+    }
+
 });
+
+//passed symbol in query string
+function stockHandler(params, req, res){
+    var ticker = params.symbol;
+    stockScraper(ticker, (err, data) => {
+        res.send(data);
+    });
+}
+
+function historyHandler(params, req, res){
+
+}
+
+function financialsHandler(params, req, res){
+
+}
+
+function optionsHandlder(params, req, res){
+
+}
+
+
