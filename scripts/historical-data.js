@@ -85,7 +85,8 @@ module.exports = (stockTicker, date1, date2, type, frequency, callback)=>{
                     var value = data[1][i];
                     returnData[name] = value;
                 }
-            }    
+            }
+            //console.log(returnData);    
         }else{
             requestStatusError = true;
         }
@@ -99,14 +100,14 @@ function constructQueryString(stockTicker, date1, date2, type, frequency){
     //Object for all query data
     //Must be contructed before call to get webpage
     var querySettings = {
-        fromDate: Math.floor(date1.getTime() / 1000),
-        toDate: Math.floor(date2.getTime() / 1000),
+        fromDate: Math.floor(new Date(date1).getTime() / 1000),
+        toDate: Math.floor(new Date(date2).getTime() / 1000),
         show: queryTable[type],
         frequency: queryTable[frequency],
     };
     //var URL = "https://ca.finance.yahoo.com/quote/" + stockTicker + "/history?period1=" + querySettings.fromDate+ "&period2="+querySettings.toDate+"&interval"+querySettings.frequency+"&filter="+querySettings.show+"&frequency="+querySettings.frequency;
     var URL = "https://ca.finance.yahoo.com/quote/BCE.TO/history?period1=831355200&period2=1522296000&interval=1mo&filter=history&frequency=1mo";
-    console.log(`the url is: ${URL}`);
+    //console.log(`the url is: ${URL}`);
     return URL;
 }
 

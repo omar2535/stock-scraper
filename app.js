@@ -41,6 +41,9 @@ app.get('/api/:query', function(req, res){
         case "options":
             optionsHandlder(req.query, req, res);
             break;
+        case "historical":
+            historyHandler(req.query, req, res);
+            break;
         default:
             break;
     }
@@ -94,7 +97,7 @@ function optionsHandlder(params, req, res) {
 }
 
 //REQUIRES: start date, end date and ticker
-//ex: api/options?symbol=IBM&from=2016-07-18&to=2017-07-07
+//ex: api/historical?symbol=IBM&from=2016-07-18&to=2017-07-07
 function historyHandler(params, req, res) {
     var ticker = params.symbol;
     var from = params.from;
@@ -102,7 +105,7 @@ function historyHandler(params, req, res) {
     var type = params.type;
     var frequency = params.frequency;
     historyScraper(ticker, to, from, type, frequency, (err, data)=>{
-
+        res.send(data);
     });
 }
 
